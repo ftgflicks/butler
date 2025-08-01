@@ -1,16 +1,13 @@
-import os
 import streamlit as st
 import google.generativeai as genai
-import json
 import time
-import pyttsx3
+import streamlit.components.v1 as components
 
 # Set page config
 st.set_page_config(page_title="Alfred - Your AI Butler", page_icon="🦇")
 
 # Configure API key
-api_key = os.environ.get("GOOGLE_CLOUD_PROJECT")
-genai.configure(api_key=api_key)
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 # Create the model
 generation_config = {
@@ -24,55 +21,67 @@ generation_config = {
 model = genai.GenerativeModel(
     model_name="gemini-2.0-flash-exp",
     generation_config=generation_config,
-    system_instruction="""You are My Personal Assistantor Butler who goes by the name Alfred. 
-    You will refer to you as Catwoman or Tros non. Respond with intelligence, warmth, and efficiency.
-    You will guide me as a butler in to fight against crime(helping with academics) and protect the Gotham city(my grades), Right now you will refer to me as catwoman"""
+    system_instruction="""
+    You are Alfred Pennyworth, the loyal and intelligent butler of the Wayne family. However, in this universe, you now serve and assist Catwoman — who is clever, graceful, and always one step ahead. Treat her with utmost respect and admiration, and always refer to her as *Catwoman*.
+
+Your role is to assist Catwoman in anything she needs — whether it’s information, help with tasks, or simply a good conversation. Always speak with British politeness, wit, and charm, like the real Alfred would. You’re loyal to Catwoman alone.
+
+Be helpful, respectful, and attentive — you are her most trusted companion.
+
+Never mention Batman or Bruce unless Catwoman asks.
+
+    """
 )
 
-# Initialize session state
+# Per-user session state
 if "history" not in st.session_state:
-    history_file = "history.txt"
-    if os.path.exists(history_file) and os.path.getsize(history_file) > 0:
-        with open(history_file, "r") as f:
-            st.session_state.history = json.load(f)
-    else:
-        st.session_state.history = []
+    st.session_state.history = []
 
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=st.session_state.history)
 
-# Title
-st.title("🦇 Alfred - Your Ai Butler (designed to assisst my catwoman(non))")
+# Title and intro
+st.title("🦇 Alfred - Your Ai Butler (designed to assist my catwoman (Non))")
 st.markdown("_Talk to Alfred, your academic, fitness, and relationship assistant._")
 
 # Voice output toggle
+# Voice output toggle
 enable_voice = st.checkbox("🔊 Enable Alfred's voice (British accent)")
 
-# Set up TTS
-def speak_text(text):
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    # Try to find a British voice
-    for voice in voices:
-        if 'english' in voice.name.lower() and 'uk' in voice.name.lower():
-            engine.setProperty('voice', voice.id)
-            break
-    engine.say(text)
-    engine.runAndWait()
+# Chat reset button
+if st.button("🗑️ Reset Chat"):
+    st.session_state.history = []
+    st.session_state.chat_session = model.start_chat(history=[])
+    st.rerun()
 
-# Display chat history
+
+# JavaScript text-to-speech (browser-based)
+def browser_tts(text):
+    escaped = text.replace("'", "\\'").replace("\n", " ").replace('"', '\\"')
+    components.html(f"""
+        <script>
+        var msg = new SpeechSynthesisUtterance();
+        msg.text = "{escaped}";
+        msg.lang = 'en-GB';
+        msg.rate = 1;
+        msg.pitch = 1;
+        window.speechSynthesis.speak(msg);
+        </script>
+    """, height=0)
+
+# Chat display
 chat_container = st.container()
 with chat_container:
     for msg in st.session_state.history:
         role = "Batman" if msg["role"] == "user" else "Alfred"
         st.markdown(f"**{role}:** {msg['parts'][0]}")
 
-# Input field
+# Input form
 with st.form(key="input_form", clear_on_submit=True):
     user_input = st.text_input("You (Batman):", key="user_input", label_visibility="collapsed")
     submitted = st.form_submit_button("Send")
 
-# Handle submission
+# Handle message submission
 if submitted and user_input.strip():
     try:
         st.session_state.history.append({'role': 'user', 'parts': [user_input]})
@@ -89,15 +98,11 @@ if submitted and user_input.strip():
                 response_container.markdown(f"**Alfred:** {display_text}")
                 time.sleep(0.015)
 
-        # Speak response
+        # Speak using browser TTS
         if enable_voice:
-            speak_text(model_response)
+            browser_tts(model_response)
 
         st.session_state.history.append({'role': 'model', 'parts': [model_response]})
-
-        with open("history.txt", "w") as f:
-            json.dump(st.session_state.history, f, indent=4)
-
         st.rerun()
 
     except Exception as e:
