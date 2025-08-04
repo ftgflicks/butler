@@ -74,17 +74,29 @@ st.markdown("""
     resize: none;
     margin-bottom: 8px;
 }
-.stChatInput button[title="Send"] {
-    display: block;
-    width: 80px;
-    margin: 0 auto;
-    background-color: #4CAF50;
+/* Hide default icon and show text */
+.stChatInput button[title="Send"] svg {
+    display: none !important;
+}
+.stChatInput button[title="Send"]::after {
+    content: 'Send';
     color: white;
+    font-weight: bold;
+}
+.stChatInput button[title="Send"] {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    width: auto;
+    padding: 8px 16px;
+    background-color: #4CAF50;
     border: none;
-    padding: 8px;
     border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
 }
 
 .stChatInput textarea {
