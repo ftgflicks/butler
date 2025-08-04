@@ -3,7 +3,7 @@ import google.generativeai as genai
 import time
 import streamlit.components.v1 as components
 
-st.markdown("""
+st.markdown(""
     <style>
         /* Chat bubbles */
         .user-bubble {
@@ -224,5 +224,6 @@ if user_input:
 
 # Bottom padding
 st.markdown("<div style='height:100px;'></div>", unsafe_allow_html=True)
+
 
 
