@@ -6,12 +6,13 @@ import streamlit.components.v1 as components
 # --- Styles ---
 st.markdown("""
     <style>
+        /* Chat bubbles */
         .user-bubble {
             background-color: #cede9e;
             color: black;
             padding: 10px 15px;
             border-radius: 18px;
-            max-width: 80%;
+            max-width: 70%;
             margin-left: auto;
             margin-bottom: 10px;
             display: inline-block;
@@ -22,7 +23,7 @@ st.markdown("""
             color: black;
             padding: 10px 15px;
             border-radius: 18px;
-            max-width: 80%;
+            max-width: 70%;
             margin-right: auto;
             margin-bottom: 10px;
             display: inline-block;
@@ -34,32 +35,37 @@ st.markdown("""
             margin: 2px 0 3px;
             color: #555;
         }
-        textarea {
-            border-radius: 1rem !important;
-            padding: 0.75rem !important;
-            border: 1px solid #ccc !important;
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            font-size: 1rem !important;
-            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-            transition: all 0.2s ease-in-out;
-        }
-        textarea:focus {
-            border: 1px solid #5b9bd5 !important;
-            box-shadow: 0 0 8px rgba(91, 155, 213, 0.3) !important;
-        }
-        textarea::placeholder {
-            color: #888 !important;
-        }
+        /* Background logo */
         .background-logo {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 300px;
-            opacity: 0.09;
+            opacity: 0.1;
             z-index: 0;
             pointer-events: none;
+        }
+        /* Fixed input bar styling */
+        .stChatInput > div {
+            width: 100%;
+        }
+        /* Custom text area inside chat_input */
+        textarea {
+            border-radius: 20px !important;
+            padding: 12px !important;
+            font-size: 1.1rem !important;
+            height: 60px !important;
+            resize: none !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        /* Send button styling */
+        button[title="Send"] {
+            background-color: #4CAF50 !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            margin-left: 8px !important;
         }
     </style>
     <img class="background-logo" src="https://i.postimg.cc/5NK7LT0s/download.jpg">
@@ -178,8 +184,7 @@ if user_input:
     st.session_state.history.append({'role':'model','parts':[model_response]})
     if enable_voice:
         browser_tts(model_response)
-    st.rerun()
+    st.experimental_rerun()
 
 # Bottom padding
 st.markdown("<div style='height:100px;'></div>", unsafe_allow_html=True)
-
