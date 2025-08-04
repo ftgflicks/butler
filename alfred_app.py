@@ -47,31 +47,41 @@ st.markdown("""
             pointer-events: none;
         }
         /* Chat input container styling */
-        .stChatInput {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 0 auto;
-            max-width: 800px;
-        }
-        .stChatInput textarea {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            width: 100%;
-            height: 50px;
-            padding: 0.5rem;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .stChatInput button[title="Send"] {
-            margin-top: 0.5rem;
-            float: left;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-        }
+.stChatInput {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 800px;
+    width: calc(100% - 40px);
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+.stChatInput textarea {
+    width: 100%;
+    height: 80px;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    resize: none;
+}
+.stChatInput button[title="Send"] {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
     </style>
     <img class="background-logo" src="https://i.postimg.cc/5NK7LT0s/download.jpg">
 """, unsafe_allow_html=True)
