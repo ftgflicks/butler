@@ -151,7 +151,7 @@ def get_model():
         """
     else:
         sys_inst = """
-            You are Alfred Pennyworth, the loyal and intelligent butler … (default instruction)
+            You are Alfred Pennyworth, the loyal and intelligent butler (default instruction)
         """
     return genai.GenerativeModel(
         model_name="gemini-2.0-flash-exp",
@@ -224,4 +224,5 @@ if user_input:
 
 # Bottom padding
 st.markdown("<div style='height:100px;'></div>", unsafe_allow_html=True)
+
 
