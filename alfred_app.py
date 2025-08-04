@@ -3,7 +3,8 @@ import google.generativeai as genai
 import time
 import streamlit.components.v1 as components
 
-st.markdown(""
+# --- Styles ---
+st.markdown("""
     <style>
         /* Chat bubbles */
         .user-bubble {
@@ -45,67 +46,30 @@ st.markdown(""
             z-index: 0;
             pointer-events: none;
         }
-        /* Chat input container styling */
-/* Chat input container styling */
-.stChatInput {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    max-width: 800px;
-    width: calc(100% - 40px);
-    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
-    z-index: 1000;
-    box-sizing: border-box;
-}
-.stChatInput textarea {
-    width: 100%;
-    height: 80px;
-    border: none;
-    border-radius: 6px;
-    padding: 12px;
-    font-size: 1rem;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    resize: none;
-    margin-bottom: 8px;
-}
-/* Hide default icon and show only text */
-.stChatInput button[title="Send"] svg {
-    display: none !important;
-}
-.stChatInput button[title="Send"] > div {
-    display: none !important;
-}
-.stChatInput button[title="Send"]::before {
-    content: 'Send';
-    color: white;
-    font-weight: bold;
-    font-size: 1rem;
-}
-.stChatInput button[title="Send"] {
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
-    width: auto;
-    min-width: 60px;
-    padding: 8px 12px;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    box-shadow: none;
-}
-
-/* Background logo restored previously */
-
+        /* Fixed input bar styling */
+        .stChatInput > div {
+            width: 100%;
+        }
+        /* Custom text area inside chat_input */
+        textarea {
+            border-radius: 20px !important;
+            padding: 12px !important;
+            font-size: 1.1rem !important;
+            height: 60px !important;
+            resize: none !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        /* Send button styling */
+        button[title="Send"] {
+            background-color: #4CAF50 !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            margin-left: 8px !important;
+        }
+    </style>
+    <img class="background-logo" src="https://i.postimg.cc/5NK7LT0s/download.jpg">
+""", unsafe_allow_html=True)
 
 # --- Page Config ---
 st.set_page_config(page_title="Alfred - Your AI Butler", page_icon="🦇")
@@ -151,7 +115,7 @@ def get_model():
         """
     else:
         sys_inst = """
-            You are Alfred Pennyworth, the loyal and intelligent butler (default instruction)
+            You are Alfred Pennyworth, the loyal and intelligent butler … (default instruction)
         """
     return genai.GenerativeModel(
         model_name="gemini-2.0-flash-exp",
@@ -220,10 +184,7 @@ if user_input:
     st.session_state.history.append({'role':'model','parts':[model_response]})
     if enable_voice:
         browser_tts(model_response)
-    st.experimental_rerun()
+    st.rerun()
 
 # Bottom padding
 st.markdown("<div style='height:100px;'></div>", unsafe_allow_html=True)
-
-
-
