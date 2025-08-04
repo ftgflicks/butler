@@ -3,7 +3,6 @@ import google.generativeai as genai
 import time
 import streamlit.components.v1 as components
 
-# --- Styles ---
 st.markdown("""
     <style>
         /* Chat bubbles */
@@ -74,21 +73,26 @@ st.markdown("""
     resize: none;
     margin-bottom: 8px;
 }
-/* Hide default icon and show text */
+/* Hide default icon and show only text */
 .stChatInput button[title="Send"] svg {
     display: none !important;
 }
-.stChatInput button[title="Send"]::after {
+.stChatInput button[title="Send"] > div {
+    display: none !important;
+}
+.stChatInput button[title="Send"]::before {
     content: 'Send';
     color: white;
     font-weight: bold;
+    font-size: 1rem;
 }
 .stChatInput button[title="Send"] {
     position: absolute;
     bottom: 16px;
     left: 16px;
     width: auto;
-    padding: 8px 16px;
+    min-width: 60px;
+    padding: 8px 12px;
     background-color: #4CAF50;
     border: none;
     border-radius: 4px;
@@ -97,32 +101,11 @@ st.markdown("""
     align-items: center;
     justify-content: center;
     height: auto;
+    box-shadow: none;
 }
 
-.stChatInput textarea {
-    width: 100%;
-    height: 80px;
-    border: none;
-    border-radius: 6px;
-    padding: 12px;
-    font-size: 1rem;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    resize: none;
-}
-.stChatInput button[title="Send"] {
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-    </style>
-    <img class="background-logo" src="https://i.postimg.cc/5NK7LT0s/download.jpg">
-""", unsafe_allow_html=True)
+/* Background logo restored previously */
+
 
 # --- Page Config ---
 st.set_page_config(page_title="Alfred - Your AI Butler", page_icon="🦇")
@@ -241,3 +224,4 @@ if user_input:
 
 # Bottom padding
 st.markdown("<div style='height:100px;'></div>", unsafe_allow_html=True)
+
