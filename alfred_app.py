@@ -46,26 +46,31 @@ st.markdown("""
             z-index: 0;
             pointer-events: none;
         }
-        /* Fixed input bar styling */
-        .stChatInput > div {
+        /* Chat input container styling */
+        .stChatInput {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        .stChatInput textarea {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             width: 100%;
+            height: 50px;
+            padding: 0.5rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
-        /* Custom text area inside chat_input */
-        textarea {
-            border-radius: 20px !important;
-            padding: 12px !important;
-            font-size: 1.1rem !important;
-            height: 60px !important;
-            resize: none !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-        /* Send button styling */
-        button[title="Send"] {
-            background-color: #4CAF50 !important;
-            color: white !important;
-            border-radius: 8px !important;
-            padding: 8px 16px !important;
-            margin-left: 8px !important;
+        .stChatInput button[title="Send"] {
+            margin-top: 0.5rem;
+            float: left;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
         }
     </style>
     <img class="background-logo" src="https://i.postimg.cc/5NK7LT0s/download.jpg">
