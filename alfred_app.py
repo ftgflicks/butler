@@ -178,7 +178,8 @@ if user_input:
     st.session_state.history.append({'role':'model','parts':[model_response]})
     if enable_voice:
         browser_tts(model_response)
-    st.experimental_rerun()
+    st.rerun()
 
 # Bottom padding
 st.markdown("<div style='height:100px;'></div>", unsafe_allow_html=True)
+
