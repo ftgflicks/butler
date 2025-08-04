@@ -47,6 +47,7 @@ st.markdown("""
             pointer-events: none;
         }
         /* Chat input container styling */
+/* Chat input container styling */
 .stChatInput {
     position: fixed;
     bottom: 20px;
@@ -60,7 +61,32 @@ st.markdown("""
     width: calc(100% - 40px);
     box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
     z-index: 1000;
+    box-sizing: border-box;
 }
+.stChatInput textarea {
+    width: 100%;
+    height: 80px;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    resize: none;
+    margin-bottom: 8px;
+}
+.stChatInput button[title="Send"] {
+    display: block;
+    width: 80px;
+    margin: 0 auto;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 .stChatInput textarea {
     width: 100%;
     height: 80px;
